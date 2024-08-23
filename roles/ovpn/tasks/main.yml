@@ -1,0 +1,55 @@
+---
+# tasks file for ovpn
+- name: Install openvpn package
+  ansible.builtin.apt:
+    name: openvpn
+    state: present
+
+- name: Make sure packet forwarding is enabled
+  ansible.posix.sysctl:
+    name: net.ipv4.ip_forward
+    value: '1'
+    sysctl_set: true
+    state: present
+    reload: true
+
+- name: Copy required cert files to hosts
+  ansible.builtin.copy:
+    content: "{{ lookup('hashi_vault', 'secret=homelab_infra/data/ovpn:{{ item }}') }}"
+    dest: "/etc/openvpn/{{ item }}"
+    mode: '0644'
+  loop: "{{ openvpn_certs }}"
+
+- name: Create OpenVPN server configuration files
+  ansible.legacy.template:
+    src: ovpn_server.conf.j2
+    dest: "/etc/openvpn/server/{{ item.key }}.conf"
+    mode: '0644'
+  loop: "{{ openvpn_servers }}"
+  loop_control:
+    label: "{{ item }}"
+  vars:
+    config_items: "{{ item }}"
+
+- name: Create OpenVPN client configuration files
+  ansible.legacy.template:
+    src: ovpn_client.conf.j2
+    dest: "/etc/openvpn/client/{{ item.key }}.conf"
+    mode: '0644'
+  loop: "{{ openvpn_clients }}"
+  loop_control:
+    label: "{{ item.key }}"
+  vars:
+    config_items: "{{ item }}"
+
+- name: Start OpenVPN servers
+  ansible.builtin.service:
+    name: openvpn-server@{{ item.key }}
+    state: restarted
+  loop: "{{ openvpn_servers }}"
+
+- name: Start OpenVPN clients
+  ansible.builtin.service:
+    name: openvpn-client@{{ item.key }}
+    state: restarted
+  loop: "{{ openvpn_clients }}"

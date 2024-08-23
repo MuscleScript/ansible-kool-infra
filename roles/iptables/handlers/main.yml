@@ -1,0 +1,4 @@
+---
+# handlers file for iptables
+- name: Reload iptables
+  ansible.builtin.shell: iptables-restore < /etc/iptables/rules.v4

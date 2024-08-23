@@ -1,0 +1,15 @@
+- name: Apply iptables rules for borders
+  ansible.builtin.template:
+    src: "templates/rules.v4_borders.j2"
+    dest: "/etc/iptables/rules.v4"
+    mode: '0644'
+  notify: Reload iptables
+  when: "'borders' in group_names"
+
+- name: Apply iptables rules for VPS
+  ansible.builtin.template:
+    src: "templates/rules.v4_vps.j2"
+    dest: "/etc/iptables/rules.v4"
+    mode: '0644'
+  notify: Reload iptables
+  when: "'vps' in group_names"

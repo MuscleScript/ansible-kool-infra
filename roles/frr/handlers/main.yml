@@ -1,0 +1,13 @@
+---
+# handlers file for frr
+- name: Restart FRR
+  ansible.builtin.systemd:
+    name: frr
+    state: restarted
+  register: result
+  failed_when: false
+
+- name: Fail if FRR failed to restart
+  ansible.builtin.fail:
+    msg: "Failed to restart FRR service"
+  when: result.failed

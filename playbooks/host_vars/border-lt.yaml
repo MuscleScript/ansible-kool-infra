@@ -1,0 +1,34 @@
+openvpn_servers:
+  - key: general
+    value:
+      port: 22420
+      server: "10.8.0.0 255.255.255.0"
+      push:
+        - '"redirect-gateway def1"'
+        - '"route 192.168.21.0 255.255.255.0"'
+      no_key_variable:
+        - "persist-key"
+        - "persist-tun"
+      cert: /etc/openvpn/lt_server.crt
+      key: /etc/openvpn/lt_server.key
+  - key: lt_to_prox
+    value:
+      port: 22421
+      ifconfig: "10.200.0.2 10.200.0.1"
+      cert: /etc/openvpn/lt_server.crt
+      key: /etc/openvpn/lt_server.key
+  - key: lt_to_phx
+    value:
+      port: 22423
+      ifconfig: "10.200.0.9 10.200.0.10"
+      cert: /etc/openvpn/lt_server.crt
+      key: /etc/openvpn/lt_server.key
+
+openvpn_clients: []
+
+openvpn_certs:
+  - ca.crt
+  - dh.pem
+  - ta.key
+  - lt_server.crt
+  - lt_server.key

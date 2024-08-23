@@ -1,0 +1,19 @@
+- name: Copy daemons config file
+  ansible.builtin.copy:
+    src: daemons
+    dest: /etc/frr/daemons
+    owner: root
+    group: root
+    mode: '0640'
+  notify:
+    - Restart FRR
+
+- name: Copy frr config file
+  ansible.builtin.copy:
+    src: frr_configurations/{{ ansible_hostname }}-frr.conf
+    dest: /etc/frr/frr.conf
+    owner: root
+    group: root
+    mode: '0640'
+  notify:
+    - Restart FRR

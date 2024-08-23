@@ -1,0 +1,11 @@
+iptables_tcp_open_ports: []
+iptables_udp_open_ports: [22420]
+
+internal_network_subnet: "192.168.20.0/24"
+internal_network_border_address: "192.168.20.254"
+
+nat_interface: "vmbr0"
+
+# For traffic forwarding
+traffic_forwarding:
+  '192.168.20.254/32': '22420'

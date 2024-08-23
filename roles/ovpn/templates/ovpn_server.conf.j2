@@ -1,0 +1,25 @@
+dev tun
+proto udp
+{% for key, value in config_items.value.items() %}
+{% if value is iterable and not value is string %}
+{% for item in value %}
+{% if key == 'no_key_variable' %}
+{{ item }}
+{% else %}
+{{ key }} {{ item }}
+{% endif %}
+{% endfor %}
+{% else %}
+{{ key }} {{ value }}
+{% endif %}
+{% endfor %}
+ca /etc/openvpn/ca.crt
+dh /etc/openvpn/dh.pem
+cipher AES-256-CBC
+data-ciphers AES-256-GCM:AES-128-GCM:CHACHA20-POLY1305:AES-256-CBC
+tls-server
+tls-auth /etc/openvpn/ta.key 0
+remote-cert-tls client
+keepalive 10 60
+verb 3
+log /var/log/openvpn_{{ config_items.key }}.log

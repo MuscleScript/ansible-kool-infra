@@ -1,0 +1,33 @@
+*filter
+:INPUT ACCEPT
+:FORWARD ACCEPT
+:OUTPUT ACCEPT
+COMMIT
+
+*raw
+:PREROUTING ACCEPT
+:OUTPUT ACCEPT
+COMMIT
+
+*nat
+:PREROUTING ACCEPT
+:INPUT ACCEPT
+:OUTPUT ACCEPT
+:POSTROUTING ACCEPT
+
+-A POSTROUTING -s {{ internal_network_subnet }} -o {{ nat_interface }} -j MASQUERADE
+
+{% for port in iptables_tcp_open_ports %}
+-A PREROUTING -p tcp -m tcp --dport {{ port }} -j DNAT --to-destination {{ internal_network_border_address }}:{{ port }}
+{% endfor %}
+
+{% for port in iptables_udp_open_ports %}
+-A PREROUTING -p udp -m udp --dport {{ port }} -j DNAT --to-destination {{ internal_network_border_address }}:{{ port }}
+{% endfor %}
+
+{% for prefix, port in traffic_forwarding.items() %}
+-A POSTROUTING -d {{ prefix }} -p tcp -m tcp --dport {{ port }} -j MASQUERADE
+-A POSTROUTING -d {{ prefix }} -p udp -m udp --dport {{ port }} -j MASQUERADE
+{% endfor %}
+
+COMMIT

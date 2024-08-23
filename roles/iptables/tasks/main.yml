@@ -1,0 +1,9 @@
+---
+# tasks file for iptables
+- name: Import tasks for installation
+  ansible.builtin.import_tasks:
+    file: install.yaml
+
+- name: Import tasks for application
+  ansible.builtin.import_tasks:
+    file: apply.yaml

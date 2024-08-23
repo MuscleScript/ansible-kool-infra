@@ -1,0 +1,46 @@
+all:
+  children:
+    vps:
+      hosts:
+        proxbox:
+          ansible_host: 5.20.201.218
+          ansible_port: 22419
+          ansible_user: root
+        best-kvm-ever:
+          ansible_host: 93.127.213.223
+          ansible_user: root
+        prox-chronic:
+          ansible_host: 193.203.167.132
+          ansible_user: root
+    borders:
+      hosts:
+        border-proxbox-internal:
+          ansible_host: 192.168.20.254
+          ansible_user: root
+          site: "prox"
+          ansible_ssh_common_args: "{{ hostvars[inventory_hostname].proxy_command if emergency | default(false) else '' }}"
+        border-lt:
+          ansible_host: 192.168.21.254
+          ansible_user: root
+          site: "lt"
+          ansible_ssh_common_args: "{{ hostvars[inventory_hostname].proxy_command if emergency | default(false) else '' }}"
+        border-phx:
+          ansible_host: 192.168.22.254
+          ansible_user: root
+          site: "phx"
+          ansible_ssh_common_args: "{{ hostvars[inventory_hostname].proxy_command if emergency | default(false) else '' }}"
+
+    prox:
+      hosts:
+        border-proxbox-internal:
+          proxy_command: '-o ProxyCommand="ssh -W %h:%p root@5.20.201.218 -p 22419"'
+
+    lt:
+      hosts:
+        border-lt:
+          proxy_command: '-o ProxyCommand="ssh -W %h:%p root@93.127.213.223"'
+
+    phx:
+      hosts:
+        border-phx:
+          proxy_command: '-o ProxyCommand="ssh -W %h:%p root@193.203.167.132"'
