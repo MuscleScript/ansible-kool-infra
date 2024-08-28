@@ -1,0 +1,14 @@
+---
+exclude_paths:
+  - .github
+
+skip_list:
+  - yaml
+  - ignore-errors
+  - no-changed-when
+
+warn_list:
+  - risky-file-permissions
+  - package-latest
+  - yaml[document-start]
+  - yaml[line-length]
