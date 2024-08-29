@@ -1,0 +1,18 @@
+---
+# tasks file for ssh
+- name: Create /root/.ssh/
+  ansible.builtin.file:
+    path: /root/.ssh/
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Set authorized_keys for root user
+  ansible.builtin.copy:
+    src: authorized_keys
+    dest: /root/.ssh/authorized_keys
+    owner: root
+    group: root
+    mode: 0400
+    validate: '/usr/bin/ssh-keygen -lf %s'
