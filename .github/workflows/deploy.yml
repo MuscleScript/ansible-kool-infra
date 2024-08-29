@@ -1,0 +1,52 @@
+---
+name: Deployment
+on:
+  repository_dispatch:
+    types:
+      - deploy-command
+
+jobs:
+  getArgs:
+    if: ${{ github.event.client_payload.pull_request.merged == true }}
+    runs-on: [self-hosted, jamaica]
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Get the tags
+        run: |
+          PLAYBOOK="${{ github.event.client_payload.slash_command.args.named.playbook }}"
+          TAGS="${{ github.event.client_payload.slash_command.args.named.tags }}"
+          LIMIT="${{ github.event.client_payload.slash_command.args.named.limit }}"
+
+          if [[ -z "$LIMIT" ]]; then
+            LIMIT=[\"*\"];
+          else
+            LIMIT=[\"$LIMIT\"]
+          fi
+
+          echo "::set-output name=playbook::$(echo $PLAYBOOK)"
+          echo "::set-output name=tags::$(echo $TAGS)"
+          echo "::set-output name=limit::$(echo $LIMIT)"
+        id: args
+
+  deploy:
+    needs: getArgs
+    if: ${{ needs.getArgs.outputs.tags != '' &&  needs.getArgs.outputs.playbook != ''}}
+    runs-on: [self-hosted, jamaica]
+    name: Deploy using Ansible
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Ansible
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ansible
+
+      - name: Apply Ansible Playbook
+        run: |
+          ansible-playbook -i inventory.yml ${{ needs.getArgs.outputs.playbook }} -l ${{ needs.getArgs.outputs.limit }} -t ${{ needs.getArgs.outputs.tags }}
+        env:
+          ANSIBLE_HOST_KEY_CHECKING: "False"
+          ANSIBLE_CONFIG: ansible.cfg

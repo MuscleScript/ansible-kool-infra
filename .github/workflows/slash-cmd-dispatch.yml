@@ -1,0 +1,18 @@
+---
+name: Slash command dispatch
+on:
+  issue_comment:
+    types:
+      - created
+
+jobs:
+  slashCommandDispatch:
+    if: ${{ github.event.issue.pull_request }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Slash Command Dispatch
+        uses: peter-evans/slash-command-dispatch@v3.0.0
+        with:
+          token: ${{ secrets.ORG_GITHUB_TOKEN }}
+          commands: |
+            deploy
