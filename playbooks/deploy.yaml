@@ -4,6 +4,7 @@
   become: true
   gather_facts: true
   roles:
+    - {role: ssh, tags: ssh}
     - {role: iptables, tags: iptables}
     - {role: ovpn, tags: ovpn}
     - {role: frr, tags: frr}
