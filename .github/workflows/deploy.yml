@@ -19,9 +19,7 @@ jobs:
           LIMIT="${{ github.event.client_payload.slash_command.args.named.limit }}"
 
           if [[ -z "$LIMIT" ]]; then
-            LIMIT=[\"*\"];
-          else
-            LIMIT=[\"$LIMIT\"]
+            LIMIT="*"
           fi
 
           echo "playbook=${PLAYBOOK}" >> $GITHUB_ENV
@@ -30,7 +28,7 @@ jobs:
 
       - name: Debug Output Variables
         run: |
-          echo "Args: "${{ github.event.client_payload.slash_command.args }}"
+          echo "Args: ${{ github.event.client_payload.slash_command.args }}"
         id: args
 
   deploy:
