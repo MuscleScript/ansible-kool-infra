@@ -24,9 +24,13 @@ jobs:
             LIMIT=[\"$LIMIT\"]
           fi
 
-          echo "playbook=${PLAYBOOK}" >> $GITHUB_OUTPUT
-          echo "tags=${TAGS}" >> $GITHUB_OUTPUT
-          echo "limit=${LIMIT}" >> $GITHUB_OUTPUT
+          echo "playbook=${PLAYBOOK}" >> $GITHUB_ENV
+          echo "tags=${TAGS}" >> $GITHUB_ENV
+          echo "limit=${LIMIT}" >> $GITHUB_ENV
+
+      - name: Debug Output Variables
+        run: |
+          echo "Args: "${{ github.event.client_payload.slash_command.args }}"
         id: args
 
   deploy:
@@ -36,6 +40,12 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
+
+      - name: Debug Output Variables
+        run: |
+          echo "Playbook: ${{ needs.getArgs.outputs.playbook }}"
+          echo "Tags: ${{ needs.getArgs.outputs.tags }}"
+          echo "Limit: ${{ needs.getArgs.outputs.limit }}"
 
       - name: Set up Ansible
         run: |
