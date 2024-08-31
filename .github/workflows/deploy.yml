@@ -31,7 +31,6 @@ jobs:
 
   deploy:
     needs: getArgs
-    if: ${{ needs.getArgs.outputs.tags != '' &&  needs.getArgs.outputs.playbook != ''}}
     runs-on: [self-hosted, jamaica]
     name: Deploy using Ansible
     steps:
