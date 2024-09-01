@@ -8,6 +8,10 @@ on:
 jobs:
   getArgs:
     runs-on: [self-hosted, jamaica]
+    outputs:
+      playbook: ${{ steps.args.outputs.playbook }}
+      tags: ${{ steps.args.outputs.tags }}
+      limit: ${{ steps.args.outputs.limit }}
     steps:
       - uses: actions/checkout@v3
         with:
