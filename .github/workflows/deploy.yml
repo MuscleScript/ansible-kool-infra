@@ -29,10 +29,6 @@ jobs:
           echo "::set-output name=playbook::${PLAYBOOK}"
           echo "::set-output name=tags::${TAGS}"
           echo "::set-output name=limit::${LIMIT}"
-
-      - name: Debug Output Variables
-        run: |
-          echo "Args: ${{ github.event.client_payload.slash_command.args }}"
         id: args
 
   deploy:
