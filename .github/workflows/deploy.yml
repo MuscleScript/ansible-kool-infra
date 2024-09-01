@@ -22,9 +22,9 @@ jobs:
             LIMIT="*"
           fi
 
-          echo "playbook=${PLAYBOOK}" >> $GITHUB_ENV
-          echo "tags=${TAGS}" >> $GITHUB_ENV
-          echo "limit=${LIMIT}" >> $GITHUB_ENV
+          echo "playbook=${PLAYBOOK}" >> $GITHUB_OUTPUT
+          echo "tags=${TAGS}" >> $GITHUB_OUTPUT
+          echo "limit=${LIMIT}" >> $GITHUB_OUTPUT
 
       - name: Debug Output Variables
         run: |
