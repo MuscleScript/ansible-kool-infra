@@ -59,7 +59,7 @@ jobs:
 
       - name: Apply Ansible Playbook
         run: |
-          ansible-playbook -i inventory.yml ${{ needs.getArgs.outputs.playbook }} -l ${{ needs.getArgs.outputs.limit }} -t ${{ needs.getArgs.outputs.tags }}
+          ansible-playbook -i inventory.yaml ${{ needs.getArgs.outputs.playbook }} -l ${{ needs.getArgs.outputs.limit }} -t ${{ needs.getArgs.outputs.tags }}
         env:
           ANSIBLE_HOST_KEY_CHECKING: "False"
           ANSIBLE_CONFIG: ansible.cfg
