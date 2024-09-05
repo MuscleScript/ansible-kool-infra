@@ -8,12 +8,16 @@
 
 - name: Make sure .ssh directory exists
   ansible.builtin.file:
-    path: "{{ item }}"
+    path: "{{ item.path }}"
     state: directory
     mode: '0755'
+    owner: "{{ item.owner }}"
+    group: "{{ item.owner }}"
   loop:
-    - "/root/.ssh"
-    - "/home/proxy_user/.ssh"
+    - path: "/root/.ssh"
+      owner: "root"
+    - path: "/home/proxy_user/.ssh"
+      owner: "proxy_user"
 
 - name: Check if SSH private key exists
   ansible.builtin.stat:
