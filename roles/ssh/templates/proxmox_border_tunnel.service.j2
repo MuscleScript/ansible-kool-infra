@@ -1,0 +1,11 @@
+[Unit]
+Description=SSH Reverse Tunnel for Port 8006
+After=network.target
+
+[Service]
+User=proxy_user
+ExecStart=/usr/bin/ssh -o StrictHostKeyChecking=no -R 8006:0.0.0.0:8006 root@{{ internal_network_border_address }} -N
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

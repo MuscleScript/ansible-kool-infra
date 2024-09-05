@@ -32,3 +32,5 @@ openvpn_certs:
   - ta.key
   - lt_server.crt
   - lt_server.key
+
+virtualization_host: "best-kvm-ever"
