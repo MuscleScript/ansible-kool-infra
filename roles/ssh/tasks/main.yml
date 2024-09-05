@@ -16,3 +16,6 @@
     group: root
     mode: 0400
     validate: '/usr/bin/ssh-keygen -lf %s'
+
+- name: Import tasks for tunneling Proxmox UI and API endpoint
+  ansible.builtin.import_tasks: tunneling.yml

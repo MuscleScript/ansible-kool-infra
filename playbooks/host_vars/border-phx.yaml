@@ -35,3 +35,5 @@ openvpn_certs:
   - phx_client.crt
   - phx_server.key
   - phx_client.key
+
+virtualization_host: "prox-chronic"

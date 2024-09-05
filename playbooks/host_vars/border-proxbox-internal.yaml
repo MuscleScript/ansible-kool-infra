@@ -37,3 +37,5 @@ openvpn_certs:
   - prox_client.crt
   - prox_server.key
   - prox_client.key
+
+virtualization_host: "proxbox"

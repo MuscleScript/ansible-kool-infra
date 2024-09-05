@@ -1,0 +1,76 @@
+---
+- name: Create proxy_user
+  ansible.builtin.user:
+    name: proxy_user
+    shell: /bin/bash
+    create_home: yes
+  when: "'vps' in group_names"
+
+- name: Make sure .ssh directory exists
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0755'
+  loop:
+    - "/root/.ssh"
+    - "/home/proxy_user/.ssh"
+
+- name: Check if SSH private key exists
+  ansible.builtin.stat:
+    path: /home/proxy_user/.ssh/id_rsa
+  register: ssh_key_check
+  when: "'vps' in group_names"
+
+- name: Generate SSH key pair for proxy_user
+  community.crypto.openssh_keypair:
+    path: /home/proxy_user/.ssh/id_rsa
+    type: rsa
+    owner: "proxy_user"
+    group: "proxy_user"
+    mode: 0600
+    force: no
+    comment: "proxy_user@{{ ansible_hostname }}"
+  when:
+    - "'vps' in group_names"
+    - not ssh_key_check.stat.exists
+
+- name: Read the public key into a variable
+  ansible.builtin.slurp:
+    src: "/home/proxy_user/.ssh/id_rsa.pub"
+  delegate_to: "{{ virtualization_host }}"
+  when: "'borders' in group_names"
+  register: public_key
+
+- name: Append the public key to the authorized_keys file
+  ansible.builtin.lineinfile:
+    path: "/root/.ssh/authorized_keys"
+    line: "{{ public_key['content'] | b64decode }}"
+    create: yes
+    owner: "root"
+    group: "root"
+    mode: '0600'
+  when: "'borders' in group_names"
+
+- name: Create proxmox_border_tunnel systemd service
+  ansible.builtin.template:
+    src: "templates/proxmox_border_tunnel.service.j2"
+    dest: "/etc/systemd/system/proxmox_border_tunnel.service"
+    mode: '0644'
+  notify: Relaod systemd services
+  when: "'vps' in group_names"
+
+- name: Enable and start proxmox_border_tunnel system service
+  ansible.builtin.service:
+    name: proxmox_border_tunnel
+    enabled: yes
+    state: restarted
+  when: "'vps' in group_names"
+
+- name: Change GatewayPorts to Yes in sshd_config
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^#?GatewayPorts'
+    line: 'GatewayPorts Yes'
+    state: present
+  notify: Restart sshd service
+  when: "'borders' in group_names"
