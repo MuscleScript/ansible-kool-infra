@@ -6,18 +6,23 @@
     create_home: yes
   when: "'vps' in group_names"
 
-- name: Make sure .ssh directory exists
+- name: Make sure .ssh directory exists in borders
   ansible.builtin.file:
-    path: "{{ item.path }}"
+    path: "/root/.ssh"
     state: directory
     mode: '0755'
-    owner: "{{ item.owner }}"
-    group: "{{ item.owner }}"
-  loop:
-    - path: "/root/.ssh"
-      owner: "root"
-    - path: "/home/proxy_user/.ssh"
-      owner: "proxy_user"
+    owner: "root"
+    group: "root"
+  when: "'borders' in group_names"
+
+- name: Make sure .ssh directory exists in vps
+  ansible.builtin.file:
+    path: "/home/proxy_user/.ssh"
+    state: directory
+    mode: '0755'
+    owner: "proxy_user"
+    group: "proxy_user"
+  when: "'vps' in group_names"
 
 - name: Check if SSH private key exists
   ansible.builtin.stat:
