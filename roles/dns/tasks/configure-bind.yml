@@ -1,0 +1,38 @@
+---
+- name: Create directory for zones
+  ansible.builtin.file:
+    path: /etc/bind/zones
+    state: directory
+    owner: root
+    group: bind
+    mode: 0755
+
+- name: Create zone files for each server
+  ansible.builtin.template:
+    src: "zone.j2"
+    dest: "/etc/bind/zones/{{ item.key }}.zone"
+    mode: '0644'
+  loop: "{{ zones | dict2items }}"
+  loop_control:
+    label: "{{ item.key }}"
+  vars:
+    zone_name: "{{ item.key }}"
+    zone_config: "{{ item.value }}"
+  when: ansible_hostname in item.value.servers
+
+- name: Create local named config file for each server
+  ansible.builtin.template:
+    src: "named.conf.local.j2"
+    dest: "/etc/bind/named.conf.local"
+    mode: '0644'
+
+- name: Create options named config file for each server
+  ansible.builtin.template:
+    src: "named.conf.options.j2"
+    dest: "/etc/bind/named.conf.options"
+    mode: '0644'
+
+- name: Restart bind9 service
+  ansible.builtin.systemd:
+    name: bind9
+    state: restarted

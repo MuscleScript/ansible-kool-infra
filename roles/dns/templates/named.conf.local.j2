@@ -1,0 +1,19 @@
+{% for zone, settings in zones.items()%}
+{% if ansible_hostname in settings['servers'] %}
+zone "{{ zone }}" {
+    type master;
+    file "/etc/bind/zones/{{ zone }}.zone";
+};
+
+{% else %}
+zone "{{ zone }}" {
+    type forward;
+    forwarders { 
+        {% for server in settings['servers'] %}
+        {{ hostvars[server]['ansible_host'] }};
+        {% endfor %}
+    };
+};
+
+{% endif %}
+{% endfor %}

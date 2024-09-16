@@ -1,0 +1,11 @@
+$TTL 86400
+@       IN      SOA     {{ zone_config.primary_ns }} {{ zone_config.admin_email }} (
+                    {{ zone_config.serial_number }}      ; Serial
+                    3600            ; Refresh
+                    1800            ; Retry
+                    604800          ; Expire
+                    86400 )         ; Minimum TTL
+
+{% for record in zone_config.records %}
+{{ record.name }}    IN  {{ record.type }}    {{ record.value }}
+{% endfor %}
