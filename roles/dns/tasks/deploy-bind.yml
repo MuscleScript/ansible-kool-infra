@@ -1,0 +1,9 @@
+---
+- name: Install bind9 and its utils
+  ansible.builtin.apt:
+    name:
+      - bind9
+      - bind9utils
+      - bind9-doc
+    state: present
+    update_cache: true

@@ -1,0 +1,50 @@
+---
+zones:
+  proxbox:
+    servers: 
+      - "dns-proxbox"
+    primary_ns: "dns1.proxbox."
+    admin_email: "admin.proxbox."
+    serial_number: "{{ lookup('pipe', 'date +%Y%m%d%H') }}"
+    records:
+      - { name: '@', type: 'NS', value: 'dns1.proxbox.' }
+      - { name: 'dns1', type: 'A', value: '192.168.20.53' }
+      - { name: 'vault', type: 'A', value: '192.168.20.80' }
+      - { name: 'prometheus', type: 'A', value: '192.168.20.120' }
+      - { name: 'ansible', type: 'A', value: '192.168.20.200' }
+      - { name: 'border', type: 'A', value: '192.168.20.254' }
+  otherz:
+    servers: 
+      - "dns-proxbox"
+    primary_ns: "dns1.otherz."
+    admin_email: "admin.otherz."
+    serial_number: "{{ lookup('pipe', 'date +%Y%m%d%H') }}"
+    records:
+      - { name: '@', type: 'NS', value: 'dns1.otherz.' }
+      - { name: 'dns1', type: 'A', value: '192.168.20.53' }
+      - { name: 'ggddg', type: 'A', value: '192.168.20.80' }
+      - { name: 'vvcxvc', type: 'A', value: '192.168.20.120' }
+      - { name: 'sucked-off', type: 'A', value: '192.168.20.200' }
+      - { name: 'qewvx', type: 'A', value: '192.168.20.254' }
+  best-kvm-ever:
+    servers: 
+      - "dns-lt"
+    primary_ns: "dns1.best-kvm-ever."
+    admin_email: "admin.best-kvm-ever."
+    serial_number: "{{ lookup('pipe', 'date +%Y%m%d%H') }}"
+    records:
+      - { name: '@', type: 'NS', value: 'dns1.best-kvm-ever.' }
+      - { name: 'dns1', type: 'A', value: '192.168.21.53' }
+      - { name: 'ansible', type: 'A', value: '192.168.21.100' }
+      - { name: 'runer', type: 'A', value: '192.168.21.101' }
+      - { name: 'border', type: 'A', value: '192.168.21.254' }
+  prox-chronic:
+    servers: 
+      - "dns-phx"
+    primary_ns: "dns1.prox-chronic."
+    admin_email: "admin.prox-chronic."
+    serial_number: "{{ lookup('pipe', 'date +%Y%m%d%H') }}"
+    records:
+      - { name: '@', type: 'NS', value: 'dns1.prox-chronic.' }
+      - { name: 'dns1', type: 'A', value: '192.168.22.53' }
+      - { name: 'border', type: 'A', value: '192.168.22.254' }

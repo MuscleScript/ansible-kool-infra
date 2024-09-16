@@ -1,0 +1,9 @@
+---
+# tasks file for dns
+- name: Import tasks for bind9 deployments
+  ansible.builtin.import_tasks:
+    file: deploy-bind.yml
+
+- name: Import tasks for bind9 configuration
+  ansible.builtin.import_tasks:
+    file: configure-bind.yml
