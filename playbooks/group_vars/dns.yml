@@ -13,19 +13,6 @@ zones:
       - { name: 'prometheus', type: 'A', value: '192.168.20.120' }
       - { name: 'ansible', type: 'A', value: '192.168.20.200' }
       - { name: 'border', type: 'A', value: '192.168.20.254' }
-  otherz:
-    servers: 
-      - "dns-proxbox"
-    primary_ns: "dns1.otherz."
-    admin_email: "admin.otherz."
-    serial_number: "{{ lookup('pipe', 'date +%Y%m%d%H') }}"
-    records:
-      - { name: '@', type: 'NS', value: 'dns1.otherz.' }
-      - { name: 'dns1', type: 'A', value: '192.168.20.53' }
-      - { name: 'ggddg', type: 'A', value: '192.168.20.80' }
-      - { name: 'vvcxvc', type: 'A', value: '192.168.20.120' }
-      - { name: 'sucked-off', type: 'A', value: '192.168.20.200' }
-      - { name: 'qewvx', type: 'A', value: '192.168.20.254' }
   best-kvm-ever:
     servers: 
       - "dns-lt"
