@@ -10,6 +10,7 @@ zones:
       - { name: '@', type: 'NS', value: 'dns1.proxbox.' }
       - { name: 'dns1', type: 'A', value: '192.168.20.53' }
       - { name: 'vault', type: 'A', value: '192.168.20.80' }
+      - { name: 'k8-1', type: 'A', value: '192.168.20.100' }
       - { name: 'prometheus', type: 'A', value: '192.168.20.120' }
       - { name: 'ansible', type: 'A', value: '192.168.20.200' }
       - { name: 'border', type: 'A', value: '192.168.20.254' }
@@ -24,6 +25,7 @@ zones:
       - { name: 'dns1', type: 'A', value: '192.168.21.53' }
       - { name: 'ansible', type: 'A', value: '192.168.21.100' }
       - { name: 'runer', type: 'A', value: '192.168.21.101' }
+      - { name: 'k8-1', type: 'A', value: '192.168.21.100' }
       - { name: 'border', type: 'A', value: '192.168.21.254' }
   prox-chronic:
     servers: 
@@ -34,4 +36,5 @@ zones:
     records:
       - { name: '@', type: 'NS', value: 'dns1.prox-chronic.' }
       - { name: 'dns1', type: 'A', value: '192.168.22.53' }
+      - { name: 'k8-1', type: 'A', value: '192.168.22.100' }
       - { name: 'border', type: 'A', value: '192.168.22.254' }
