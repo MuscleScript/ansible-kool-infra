@@ -1,0 +1,77 @@
+---
+- name: Create /etc/modules-load.d/containerd.conf
+  ansible.builtin.copy:
+    dest: /etc/modules-load.d/containerd.conf
+    content: |
+      overlay
+      br_netfilter
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Add required kernel modules
+  community.general.modprobe:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - "overlay"
+    - "br_netfilter"
+
+- name: Make sure packet forwarding and bridging is enabled
+  ansible.posix.sysctl:
+    name: "{{ item }}"
+    value: '1'
+    sysctl_set: true
+    state: present
+    reload: true
+  loop:
+    - "net.bridge.bridge-nf-call-iptables"
+    - "net.ipv4.ip_forward"
+    - "net.bridge.bridge-nf-call-ip6tables"
+
+- name: Install containerd
+  ansible.builtin.apt:
+    name: 
+      - containerd
+    state: present
+    update_cache: true
+
+- name: Create directory for containerd configuration
+  ansible.builtin.file:
+    path: /etc/containerd
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Generate default containerd config
+  ansible.builtin.command:
+    cmd: containerd config default
+  register: containerd_config
+
+- name: Write containerd config to /etc/containerd/config.toml
+  ansible.builtin.copy:
+    content: "{{ containerd_config.stdout }}"
+    dest: /etc/containerd/config.toml
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Set cgroup driver to systemd
+  ansible.builtin.lineinfile:
+    path: /etc/containerd/config.toml
+    regexp: 'SystemdCgroup'
+    line: '            SystemdCgroup = true'
+
+- name: Restart containerd service
+  ansible.builtin.systemd:
+    name: containerd
+    state: restarted
+
+- name: Check if containerd is running
+  ansible.builtin.shell: "set -o pipefail && ps aux | grep containerd"
+  args:
+    executable: /usr/bin/bash
+  register: containerd_check
+  changed_when: false
+  failed_when: "'/usr/bin/containerd' not in containerd_check.stdout"

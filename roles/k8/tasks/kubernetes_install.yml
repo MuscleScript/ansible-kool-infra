@@ -1,0 +1,52 @@
+---
+- name: Make sure gpg and curl is installed
+  ansible.builtin.apt:
+    name: 
+      - gpg
+      - curl
+    state: present
+    update_cache: true
+
+- name: Create /etc/apt/keyrings
+  ansible.builtin.file:
+    path: /etc/apt/keyrings
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Download Kubernetes GPG key and save it to /etc/apt/keyrings
+  ansible.builtin.shell: "set -o pipefail && curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.31/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg --yes"
+  args:
+    executable: /usr/bin/bash
+  
+- name: Add Kubernetes apt repository
+  ansible.builtin.apt_repository:
+    repo: "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.31/deb/ /"
+    state: present
+    filename: kubernetes.list
+    update_cache: yes
+  
+- name: Install kubernetes binaries
+  ansible.builtin.apt:
+    name: 
+      - kubelet
+      - kubeadm
+      - kubectl
+    state: present
+    update_cache: true
+
+- name: Enable and restart kubelet
+  ansible.builtin.service:
+    name: kubelet
+    enabled: yes
+    state: restarted
+
+- name: Install required python packages and utils
+  ansible.builtin.apt:
+    name:
+      - python3-pip
+      - python3-kubernetes
+      - python3-jsonpatch
+      - python3-yaml
+    state: present

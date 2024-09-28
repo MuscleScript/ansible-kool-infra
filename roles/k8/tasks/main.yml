@@ -1,0 +1,21 @@
+---
+# tasks file for k8
+- name: Import tasks for containerd
+  ansible.builtin.include_tasks:
+    file: containerd.yml
+  tags: containerd
+
+- name: Import tasks for kubernetes installation
+  ansible.builtin.include_tasks:
+    file: kubernetes_install.yml
+  tags: install
+
+- name: Import tasks for kubernetes deployment
+  ansible.builtin.include_tasks:
+    file: kubernetes_deploy.yml
+  tags: deploy
+
+- name: Import tasks for joining the cluster
+  ansible.builtin.include_tasks:
+    file: kubernetes_join.yml
+  tags: join

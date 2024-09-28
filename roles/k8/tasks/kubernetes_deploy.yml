@@ -1,0 +1,44 @@
+---
+- name: Kubernetes cluster initialization and setup
+  when: role == "master"
+  block:
+  - name: Reset Kubernetes (if needed)
+    ansible.builtin.shell: "set -o pipefail && kubeadm reset -f"
+    when: 
+      - reset_cluster | default(false) | bool
+
+  - name: Initialize the cluster
+    ansible.builtin.shell: "set -o pipefail && kubeadm init"
+    args:
+      executable: /usr/bin/bash
+    ignore_errors: yes
+
+  - name: Create directory for kubernetes configuration
+    ansible.builtin.file:
+      path: /root/.kube
+      state: directory
+      owner: root
+      group: root
+      mode: 0755
+
+  - name: Copy kubernetes config file
+    ansible.builtin.copy:
+      remote_src: yes
+      src: /etc/kubernetes/admin.conf
+      dest: /root/.kube/config
+      owner: root
+      group: root
+      mode: '0640'
+
+  - name: Copy calico.yml
+    ansible.builtin.copy:
+      src: "calico.yml"
+      dest: "/root/calico.yml"
+      owner: root
+      group: root
+      mode: '0640'
+
+  - name: Apply calico
+    kubernetes.core.k8s:
+      state: present
+      src: /root/calico.yml
