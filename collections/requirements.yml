@@ -4,3 +4,4 @@ collections:
     version: 6.2.0
   - name: ansible.posix
   - name: community.crypto
+  - name: kubernetes.core

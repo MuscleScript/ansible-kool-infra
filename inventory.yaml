@@ -71,6 +71,23 @@ all:
           ansible_host: 192.168.20.120
           ansible_user: root
           site: "proxbox"
+    k8:
+      hosts:
+        k8-1-proxbox:
+          ansible_host: 192.168.20.100
+          ansible_user: root
+          site: "proxbox"
+          role: "master"
+        k8-1-lt:
+          ansible_host: 192.168.21.102
+          ansible_user: root
+          site: "lt"
+          role: "worker"
+        k8-1-phx:
+          ansible_host: 192.168.22.100
+          ansible_user: root
+          site: "phx"
+          role: "worker"
 
     prox:
       hosts:

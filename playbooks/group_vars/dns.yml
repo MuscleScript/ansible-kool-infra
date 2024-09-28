@@ -25,7 +25,7 @@ zones:
       - { name: 'dns1', type: 'A', value: '192.168.21.53' }
       - { name: 'ansible', type: 'A', value: '192.168.21.100' }
       - { name: 'runer', type: 'A', value: '192.168.21.101' }
-      - { name: 'k8-1', type: 'A', value: '192.168.21.100' }
+      - { name: 'k8-1', type: 'A', value: '192.168.21.102' }
       - { name: 'border', type: 'A', value: '192.168.21.254' }
   prox-chronic:
     servers: 
