@@ -7,7 +7,7 @@ all:
           ansible_port: 22419
           ansible_user: root
         best-kvm-ever:
-          ansible_host: 93.127.213.223
+          ansible_host: 45.93.139.26
           ansible_user: root
         prox-chronic:
           ansible_host: 193.203.167.132

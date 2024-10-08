@@ -5,7 +5,7 @@
     executable: /usr/bin/bash
   register: join_command
   run_once: true
-  delegate_to: "k8-1-proxmox"
+  delegate_to: "k8-1-proxbox"
 
 - name: Get command output
   ansible.builtin.set_fact:
