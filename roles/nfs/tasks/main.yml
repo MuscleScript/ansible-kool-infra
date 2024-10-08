@@ -1,0 +1,31 @@
+---
+# tasks file for nfs
+- name: Install nfs package
+  ansible.builtin.apt:
+    name:
+      - rpcbind
+      - nfs-kernel-server
+    state: present
+    update_cache: true
+
+- name: Create directory for nfs share
+  ansible.builtin.file:
+    path: /nfs
+    state: directory
+    owner: nobody
+    group: nogroup
+    mode: 0755
+
+- name: Ensure NFS export line is present in /etc/exports
+  ansible.builtin.lineinfile:
+    path: /etc/exports
+    regexp: '^/nfs 192.168.0.0/16\(rw,sync,no_subtree_check\)$'
+    line: '/nfs 192.168.0.0/16(rw,sync,no_subtree_check)'
+    state: present
+    backup: yes
+  become: yes
+
+- name: Restart nfs service
+  ansible.builtin.systemd:
+    name: nfs-server
+    state: restarted

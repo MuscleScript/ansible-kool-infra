@@ -88,6 +88,12 @@ all:
           ansible_user: root
           site: "phx"
           role: "worker"
+    nfs:
+      hosts:
+        nfs-lt:
+          ansible_host: 192.168.21.105
+          ansible_user: root
+          site: "lt"
 
     prox:
       hosts:

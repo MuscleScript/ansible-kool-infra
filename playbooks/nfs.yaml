@@ -1,0 +1,7 @@
+- name: Deploy
+  hosts: nfs
+  become: true
+  gather_facts: true
+  roles:
+    - {role: ssh, tags: ssh}
+    - {role: nfs, tags: nfs}
