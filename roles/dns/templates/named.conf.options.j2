@@ -3,7 +3,7 @@ options {
 
 	recursion yes;
 	allow-query { any; };
-	allow-recursion { 192.168.0.0/16; };
+	allow-recursion { 192.168.0.0/16; 10.200.0.0/24; };
 
 	// forwarders {8.8.8.8; 1.1.1.1; };
 	dnssec-validation no;
