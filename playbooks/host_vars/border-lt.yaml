@@ -23,6 +23,12 @@ openvpn_servers:
       ifconfig: "10.200.0.9 10.200.0.10"
       cert: /etc/openvpn/lt_server.crt
       key: /etc/openvpn/lt_server.key
+  - key: lt_to_rock64
+    value:
+      port: 22424
+      ifconfig: "10.200.0.13 10.200.0.14"
+      cert: /etc/openvpn/lt_server.crt
+      key: /etc/openvpn/lt_server.key
 
 openvpn_clients: []
 

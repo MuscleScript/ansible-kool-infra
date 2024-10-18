@@ -29,6 +29,10 @@ all:
           ansible_user: root
           site: "phx"
           ansible_ssh_common_args: "{{ hostvars[inventory_hostname].proxy_command if emergency | default(false) else '' }}"
+        rock64:
+          ansible_host: 192.168.23.2
+          ansible_user: root
+          site: "rock64"
     dns:
       hosts:
         dns-proxbox:
@@ -87,6 +91,11 @@ all:
           ansible_host: 192.168.22.100
           ansible_user: root
           site: "phx"
+          role: "worker"
+        k8-1-rock64:
+          ansible_host: 192.168.23.2
+          ansible_user: root
+          site: "rock64"
           role: "worker"
     nfs:
       hosts:

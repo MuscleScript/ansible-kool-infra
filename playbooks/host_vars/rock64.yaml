@@ -1,0 +1,27 @@
+openvpn_servers: []
+
+openvpn_clients:
+  - key: rock64_to_lt
+    value:
+      remote: 45.93.139.26
+      port: 22424
+      ifconfig: "10.200.0.14 10.200.0.13"
+      cert: /etc/openvpn/rock64_client.crt
+      key: /etc/openvpn/rock64_client.key
+
+  - key: rock64_to_phx
+    value:
+      remote: 193.203.167.132
+      port: 22425
+      ifconfig: "10.200.0.18 10.200.0.17"
+      cert: /etc/openvpn/rock64_client.crt
+      key: /etc/openvpn/rock64_client.key
+
+openvpn_certs:
+  - ca.crt
+  - dh.pem
+  - ta.key
+  - rock64_client.key
+  - rock64_client.crt
+
+virtualization_host: ""

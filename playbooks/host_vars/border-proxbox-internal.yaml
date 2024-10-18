@@ -15,7 +15,7 @@ openvpn_servers:
 openvpn_clients:
   - key: prox_to_lt
     value:
-      remote: 93.127.213.223
+      remote: 45.93.139.26
       port: 22421
       ifconfig: "10.200.0.1 10.200.0.2"
       cert: /etc/openvpn/prox_client.crt

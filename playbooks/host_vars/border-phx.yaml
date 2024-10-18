@@ -17,11 +17,17 @@ openvpn_servers:
       ifconfig: "10.200.0.6 10.200.0.5"
       cert: /etc/openvpn/phx_server.crt
       key: /etc/openvpn/phx_server.key
+  - key: phx_to_rock64
+    value:
+      port: 22425
+      ifconfig: "10.200.0.17 10.200.0.18"
+      cert: /etc/openvpn/phx_server.crt
+      key: /etc/openvpn/phx_server.key
 
 openvpn_clients:
   - key: phx_to_lt
     value:
-      remote: 93.127.213.223
+      remote: 45.93.139.26
       port: 22423
       ifconfig: "10.200.0.10 10.200.0.9"
       cert: /etc/openvpn/phx_client.crt
