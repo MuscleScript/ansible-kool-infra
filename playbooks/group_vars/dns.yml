@@ -39,3 +39,13 @@ zones:
       - { name: 'dns1', type: 'A', value: '192.168.22.53' }
       - { name: 'k8-1', type: 'A', value: '192.168.22.100' }
       - { name: 'border', type: 'A', value: '192.168.22.254' }
+  dorm:
+    servers: 
+      - "dns-dorm"
+    primary_ns: "dns1.dorm."
+    admin_email: "admin.dorm."
+    serial_number: "{{ lookup('pipe', 'date +%Y%m%d%H') }}"
+    records:
+      - { name: '@', type: 'NS', value: 'dns1.dorm.' }
+      - { name: 'dns1', type: 'A', value: '192.168.24.53' }
+      - { name: 'redmine', type: 'A', value: '192.168.24.11' }
