@@ -10,7 +10,7 @@ all:
           ansible_host: 45.93.139.26
           ansible_user: root
         prox-chronic:
-          ansible_host: 193.203.167.132
+          ansible_host: 185.224.139.246
           ansible_user: root
     borders:
       hosts:
@@ -24,10 +24,10 @@ all:
           ansible_user: root
           site: "lt"
           ansible_ssh_common_args: "{{ hostvars[inventory_hostname].proxy_command if emergency | default(false) else '' }}"
-        border-phx:
+        border-nl:
           ansible_host: 192.168.22.254
           ansible_user: root
-          site: "phx"
+          site: "nl"
           ansible_ssh_common_args: "{{ hostvars[inventory_hostname].proxy_command if emergency | default(false) else '' }}"
         rock64:
           ansible_host: 192.168.23.2
@@ -43,10 +43,10 @@ all:
           ansible_host: 192.168.21.53
           ansible_user: root
           site: "lt"
-        dns-phx:
+        dns-nl:
           ansible_host: 192.168.22.53
           ansible_user: root
-          site: "phx"
+          site: "nl"
     ansible:
       hosts:
         ansible-proxbox:
@@ -87,10 +87,10 @@ all:
           ansible_user: root
           site: "lt"
           role: "worker"
-        k8-1-phx:
+        k8-1-nl:
           ansible_host: 192.168.22.100
           ansible_user: root
-          site: "phx"
+          site: "nl"
           role: "worker"
         k8-1-rock64:
           ansible_host: 192.168.23.2
@@ -114,7 +114,7 @@ all:
         border-lt:
           proxy_command: '-o ProxyCommand="ssh -W %h:%p root@93.127.213.223"'
 
-    phx:
+    nl:
       hosts:
-        border-phx:
-          proxy_command: '-o ProxyCommand="ssh -W %h:%p root@193.203.167.132"'
+        border-nl:
+          proxy_command: '-o ProxyCommand="ssh -W %h:%p root@185.224.139.246"'

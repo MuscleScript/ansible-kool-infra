@@ -30,7 +30,7 @@ zones:
       - { name: 'border', type: 'A', value: '192.168.21.254' }
   prox-chronic:
     servers: 
-      - "dns-phx"
+      - "dns-nl"
     primary_ns: "dns1.prox-chronic."
     admin_email: "admin.prox-chronic."
     serial_number: "{{ lookup('pipe', 'date +%Y%m%d%H') }}"
