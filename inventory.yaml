@@ -12,6 +12,9 @@ all:
         prox-chronic:
           ansible_host: 185.224.139.246
           ansible_user: root
+        emre-dorm:
+          ansible_host: 91.233.177.135
+          ansible_user: root          
     borders:
       hosts:
         border-proxbox-internal:
@@ -33,6 +36,11 @@ all:
           ansible_host: 192.168.23.2
           ansible_user: root
           site: "rock64"
+        border-dorm:
+          ansible_host: 192.168.24.254
+          ansible_user: root
+          site: "dorm"
+          ansible_ssh_common_args: "{{ hostvars[inventory_hostname].proxy_command if emergency | default(false) else '' }}"
     dns:
       hosts:
         dns-proxbox:
@@ -118,3 +126,8 @@ all:
       hosts:
         border-nl:
           proxy_command: '-o ProxyCommand="ssh -W %h:%p root@185.224.139.246"'
+    
+    dorm:
+      hosts:
+        border-dorm:
+          proxy_command: '-o ProxyCommand="ssh -W %h:%p root@91.233.177.135"'
