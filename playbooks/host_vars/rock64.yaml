@@ -11,7 +11,7 @@ openvpn_clients:
 
   - key: rock64_to_phx
     value:
-      remote: 193.203.167.132
+      remote: 185.224.139.246
       port: 22425
       ifconfig: "10.200.0.18 10.200.0.17"
       cert: /etc/openvpn/rock64_client.crt

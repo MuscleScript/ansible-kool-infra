@@ -13,12 +13,12 @@
     state: present
     reload: true
 
-- name: Copy required cert files to hosts
-  ansible.builtin.copy:
-    content: "{{ lookup('hashi_vault', 'secret=homelab_infra/data/ovpn:{{ item }}') }}"
-    dest: "/etc/openvpn/{{ item }}"
-    mode: '0644'
-  loop: "{{ openvpn_certs }}"
+#- name: Copy required cert files to hosts
+#  ansible.builtin.copy:
+#    content: "{{ lookup('hashi_vault', 'secret=homelab_infra/data/ovpn:{{ item }}') }}"
+#    dest: "/etc/openvpn/{{ item }}"
+#    mode: '0644'
+#  loop: "{{ openvpn_certs }}"
 
 - name: Create OpenVPN server configuration files
   ansible.legacy.template:
